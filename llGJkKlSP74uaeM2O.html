@@ -1,0 +1,666 @@
+<html><head><base href="/"><meta charset="utf-8"><style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;  
+  margin: 0 auto;
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.flex-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.left-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.right-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+h1 {
+  color: #ffffff;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.image-upload {
+  border: 2px dashed #404040;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.image-upload:hover {
+  border-color: #2563eb;
+  background: #333333;
+}
+
+.preview {
+  max-width: 100%;
+  margin: 20px 0;
+  border-radius: 8px;
+  display: none;
+}
+
+.result {
+  background: #333333;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.style-analysis {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border-left: 4px solid #2563eb;
+}
+
+.style-analysis h3 {
+  color: #2563eb;
+  margin-bottom: 10px;
+}
+
+.prompt-variations {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.variation-item {
+  background: #333;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.variation-item:last-child {
+  margin-bottom: 0;
+}
+
+.variation-title {
+  color: #2563eb;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.loading {
+  display: none;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #333;
+  border-top: 4px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.action-button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.action-button:hover {
+  background: #1d4ed8;
+}
+
+.prompt-editor {
+  width: 100%;
+  background: #333;
+  color: #fff;
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  min-height: 100px;
+  resize: vertical;
+}
+
+select.prompt-editor {
+  width: 100%;
+  background: #333;
+  color: #fff;
+  border: 1px solid #404040;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1em center;
+  background-size: 1em;
+}
+
+select.prompt-editor:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+select.prompt-editor option {
+  background: #333;
+  color: #fff;
+  padding: 12px;
+}
+
+.history-item {
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #e0e0e0;
+  position: relative;
+  cursor: pointer;
+}
+
+.favorite-btn {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.favorite-btn.active {
+  color: #ffd700;
+}
+
+.copy-btn {
+  position: absolute;
+  right: 35px; 
+  top: 5px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.copy-btn:hover {
+  background: #333;
+  color: #fff;
+}
+
+.history-tabs {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #333;
+}
+
+.history-tab {
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+
+.history-tab.active {
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background: #252525;
+  padding: 20px;
+  border-right: 1px solid #333;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 20px;
+}
+
+@media (max-width: 968px) {
+  .flex-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+  }
+}
+</style></head><body>
+<div class="sidebar">
+  <h3 style="margin-bottom: 20px; color: #fff;">History</h3>
+  <div class="history-tabs">
+    <button class="history-tab active" onclick="showTab(&apos;recent&apos;)">Recent</button>
+    <button class="history-tab" onclick="showTab(&apos;favorites&apos;)">Favorites</button>
+  </div>
+  <div id="history"></div>
+</div>
+
+<div class="main-content">
+  <div class="container">
+    <h1>Style Image Analyzer &amp; AI Chat</h1>
+    
+    <div class="button-group">
+      <button class="action-button" onclick="document.getElementById(&apos;fileInput&apos;).click()">
+        Upload Image to Analyze
+      </button>
+      <button class="action-button" onclick="askAIWithoutImage()">
+        Ask AI Without Image
+      </button>
+    </div>
+
+    <div class="flex-container">
+      <div class="left-column">
+        <div class="image-upload" id="dropZone">
+          <input type="file" id="fileInput" accept="image/*" style="display: none">
+          <p>Drop your image here or click to upload</p>
+        </div>
+
+        <img id="preview" class="preview">
+        
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Processing...</p>
+        </div>
+
+        <div class="result" id="result"></div>
+      </div>
+
+      <div class="right-column">
+        <h3 style="margin-bottom: 10px;">Prompt Templates:</h3>
+        <select id="promptTemplates" class="prompt-editor" style="margin-bottom: 15px;" onchange="selectPromptTemplate()">
+          <option value>-- Select a Creative Prompt Template --</option>
+          <option value="artMovement">Art Movement Analysis</option>
+          <option value="emotionalImpact">Emotional Impact &amp; Mood</option>
+          <option value="technicalBreakdown">Technical Style Breakdown</option>
+          <option value="culturalInfluences">Cultural Style Influences</option>
+          <option value="compositionAnalysis">Deep Composition Analysis</option>
+          <option value="colorTheory">Advanced Color Theory</option>
+          <option value="symbolism">Symbolic Elements &amp; Meaning</option>
+          <option value="visualStorytelling">Visual Storytelling Elements</option>
+          <option value="designPrinciples">Design Principles Deep Dive</option>
+          <option value="texturePatterns">Texture &amp; Pattern Study</option>
+          <option value="artisticStyle">Distinctive Artistic Style Analysis</option>
+        </select>
+        
+        <h3 style="margin-bottom: 10px;">Custom Prompt:</h3>
+        <textarea id="customPrompt" class="prompt-editor">Analyze and describe the visual style and artistic characteristics of this image in detail. Focus on design elements like color scheme, composition, artistic technique, visual aesthetics, and stylistic influences. Provide a focused style analysis in 80-100 words:</textarea>
+        
+        <div class="button-group">
+          <button class="action-button" onclick="updatePrompt()">Update Prompt</button>
+          <button class="action-button" onclick="resetPrompt()">Reset to Default</button>
+        </div>
+
+        <div class="style-analysis" id="styleAnalysis">
+          <h3>Detailed Style Analysis</h3>
+          <div id="styleResult"></div>
+        </div>
+        <div class="prompt-variations" id="promptVariations">
+          <h3>Style Analysis Variations</h3>
+          <div class="variations-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>const GEMINI_API_KEY = 'AIzaSyDw1rKVsWRLadxjqsp-FagiEzxFRC2Kfes';
+const DEFAULT_PROMPT = "Analyze and describe the visual style and artistic characteristics of this image in detail. Focus on design elements like color scheme, composition, artistic technique, visual aesthetics, and stylistic influences. Provide a focused style analysis in 80-100 words:";
+const STYLE_PROMPT = "Provide an extremely detailed analysis of the visual style, as if written by an art curator. Focus on: distinctive artistic techniques, signature stylistic elements, characteristic color palettes, unique textural approaches, and specific compositional methods that define this style. Compare to established artistic styles and movements without naming specific artists. Be very technical and precise in describing the stylistic elements that make this work distinctive in 80-100 words:";
+const STORAGE_KEY = 'favorite_prompts';
+let currentTab = 'recent';
+let recentHistory = [];
+let favoritePrompts = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+const PROMPT_TEMPLATES = {
+  artMovement: "Analyze this image through the lens of art history movements in 80-100 words. Identify specific artistic movements, styles, or periods it closely resembles. Detail the characteristic elements that connect it to these movements including brush techniques, color theory approaches, compositional strategies, and stylistic signatures that echo established artistic traditions:",
+  emotionalImpact: "Examine the emotional resonance and psychological impact of this image's visual style in 80-100 words. Analyze how specific design choices, color psychology, and compositional elements work together to create mood and evoke emotional responses. Focus on the subtle nuances that contribute to the overall emotional atmosphere:",
+  technicalBreakdown: "Provide a curator's technical breakdown of the visual execution in 80-100 words. Analyze specific techniques, tools, and methods that define this style. Include examination of distinctive brush techniques, signature effects, characteristic texture applications, and technical approaches that align with recognized artistic styles. Focus on the unique stylistic elements that make this work identifiable:",
+  culturalInfluences: "Explore the cultural and geographical style influences evident in this image in 80-100 words. Identify elements that reference specific cultural aesthetics, regional artistic traditions, or cross-cultural fusion. Analyze how these influences are interpreted and integrated:",
+  compositionAnalysis: "Conduct an in-depth analysis of the compositional structure in 80-100 words. Examine the use of formal elements like balance, rhythm, movement, contrast, unity, and emphasis. Break down how these elements are arranged to create visual interest and guide viewer attention:",
+  colorTheory: "Perform a comprehensive color analysis examining the color harmony, scheme, and psychological impact in 80-100 words. Include analysis of primary/secondary relationships, temperature, value relationships, saturation choices, and how colors interact to create depth and emphasis:",
+  symbolism: "Decode the symbolic visual language used in this image in 80-100 words. Analyze how specific visual elements, motifs, and stylistic choices carry deeper meaning or metaphorical significance. Consider both universal and culturally-specific symbolic interpretations:",
+  visualStorytelling: "Examine how the visual style supports narrative and storytelling elements in 80-100 words. Analyze how composition, color, symbolism, and stylistic choices work together to convey story, character, setting, or concept. Focus on narrative clarity and emotional resonance:",
+  designPrinciples: "Evaluate how fundamental design principles are applied in this image in 80-100 words. Analyze the implementation of hierarchy, contrast, repetition, alignment, proximity, and white space. Examine how these principles create effective visual communication:",
+  texturePatterns: "Focus on the use of texture and pattern in this image in 80-100 words. Analyze both physical/implied textures and recurring pattern elements. Examine how these elements create depth, interest, and tactile quality while supporting the overall visual style:",
+  artisticStyle: "Analyze the distinctive artistic style and technique in 80-100 words. Examine the specific stylistic choices, technical approaches, and visual signatures that align with established artistic traditions. Focus on identifying characteristic elements including brushwork, color relationships, compositional strategies, and stylistic treatments that echo recognized artistic approaches without naming specific artists:"
+};
+const STYLE_VARIATIONS = [{
+  title: "Technical Style Analysis",
+  prompt: "Analyze the technical execution and distinctive stylistic elements in 80-100 words. Focus on specific techniques, methods, and characteristic approaches that define this style. Examine brush techniques, texture applications, and compositional strategies that align with recognized artistic traditions:"
+}, {
+  title: "Compositional Style Focus",
+  prompt: "Examine the compositional style and visual structure in 80-100 words. Analyze how formal elements create visual hierarchy, movement, and balance. Focus on spatial relationships, geometric foundations, and design principles that characterize this artistic approach:"
+}, {
+  title: "Color & Mood Analysis",
+  prompt: "Break down the color relationships and emotional atmosphere in 80-100 words. Analyze the psychological impact of the color palette, temperature relationships, and value contrasts. Examine how these elements create mood and stylistic identity:"
+}, {
+  title: "Cultural Style Context",
+  prompt: "Place this style within broader artistic traditions in 80-100 words. Identify influences from specific movements, periods, or cultural aesthetics. Analyze how these elements are interpreted and integrated into a unique visual language:"
+}, {
+  title: "Artistic Technique Deep Dive",
+  prompt: "Provide an expert analysis of the artistic techniques in 80-100 words. Focus on signature stylistic elements, characteristic mark-making, and distinctive visual treatments that define this work's aesthetic identity:"
+}];
+async function analyzeImage(base64Image) {
+  try {
+    const customPrompt = document.getElementById('customPrompt').value + " Please provide a precise, curator-level analysis in 80-100 words, comparing to established artistic styles where relevant.";
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: customPrompt
+          }, {
+            inlineData: {
+              data: base64Image,
+              mimeType: "image/jpeg"
+            }
+          }]
+        }]
+      })
+    });
+    const data = await response.json();
+    const analysis = data.candidates[0].content.parts[0].text;
+    const variationsContainer = document.querySelector('.variations-container');
+    variationsContainer.innerHTML = '';
+    for (const variation of STYLE_VARIATIONS) {
+      const variationResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: variation.prompt
+            }, {
+              inlineData: {
+                data: base64Image,
+                mimeType: "image/jpeg"
+              }
+            }]
+          }]
+        })
+      });
+      const variationData = await variationResponse.json();
+      const variationAnalysis = variationData.candidates[0].content.parts[0].text;
+      const variationElement = document.createElement('div');
+      variationElement.className = 'variation-item';
+      variationElement.innerHTML = `
+        <div class="variation-title">${variation.title}</div>
+        <p>${variationAnalysis}</p>
+        <button class="copy-btn" onclick="copyVariation(this)">Copy</button>
+      `;
+      variationsContainer.appendChild(variationElement);
+    }
+    const styleResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: STYLE_PROMPT + " Please keep response between 80-100 words."
+          }, {
+            inlineData: {
+              data: base64Image,
+              mimeType: "image/jpeg"
+            }
+          }]
+        }]
+      })
+    });
+    const styleData = await styleResponse.json();
+    const styleAnalysis = styleData.candidates[0].content.parts[0].text;
+    document.getElementById('styleResult').innerHTML = `<p>${styleAnalysis}</p>`;
+    addToHistory(analysis);
+    return analysis;
+  } catch (error) {
+    console.error('Error:', error);
+    return 'Error analyzing image style. Please try again.';
+  }
+}
+async function askAIWithoutImage() {
+  document.querySelector('.variations-container').innerHTML = '';
+  try {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('result').innerHTML = '';
+    document.getElementById('styleResult').innerHTML = '';
+    const customPrompt = document.getElementById('customPrompt').value + " Please provide a precise, curator-level analysis in 80-100 words, comparing to established artistic styles where relevant.";
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: customPrompt
+          }]
+        }]
+      })
+    });
+    const data = await response.json();
+    const analysis = data.candidates[0].content.parts[0].text;
+    addToHistory(analysis);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('result').innerHTML = `<h3>AI Response:</h3><p>${analysis}</p>`;
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('result').innerHTML = 'Error getting AI response. Please try again.';
+  }
+}
+function updatePrompt() {
+  const preview = document.getElementById('preview');
+  if (preview.src && preview.style.display !== 'none') {
+    handleFiles([dataURLtoFile(preview.src, 'current.jpg')]);
+  } else {
+    askAIWithoutImage();
+  }
+}
+function resetPrompt() {
+  document.getElementById('customPrompt').value = DEFAULT_PROMPT;
+  updatePrompt();
+}
+function dataURLtoFile(dataurl, filename) {
+  let arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], filename, {
+    type: mime
+  });
+}
+function addToHistory(analysis) {
+  const historyDiv = document.getElementById('history');
+  const entry = {
+    text: analysis,
+    timestamp: Date.now(),
+    id: Date.now().toString(),
+    isFavorite: false
+  };
+  recentHistory.unshift(entry);
+  renderHistory();
+}
+function handleDragOver(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+function handleDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const dt = e.dataTransfer;
+  const files = dt.files;
+  handleFiles(files);
+}
+function handleFileSelect(e) {
+  const files = e.target.files;
+  handleFiles(files);
+}
+function handleFiles(files) {
+  const file = files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      const preview = document.getElementById('preview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('result').innerHTML = '';
+      document.getElementById('styleResult').innerHTML = '';
+      const base64Image = e.target.result.split(',')[1];
+      const analysis = await analyzeImage(base64Image);
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('result').innerHTML = `<h3>General Analysis:</h3><p>${analysis}</p>`;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    alert('Please upload an image file');
+  }
+}
+function renderHistory() {
+  const historyDiv = document.getElementById('history');
+  historyDiv.innerHTML = '';
+  const items = currentTab === 'recent' ? recentHistory : favoritePrompts;
+  items.forEach(entry => {
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    item.innerHTML = `
+      ${entry.text.substring(0, 100)}...
+      <button class="copy-btn" onclick="event.stopPropagation(); copyPrompt('${entry.id}')">
+        Copy
+      </button>
+      <button class="favorite-btn ${entry.isFavorite ? 'active' : ''}" onclick="toggleFavorite('${entry.id}')">
+        ${entry.isFavorite ? '★' : '☆'}
+      </button>
+    `;
+    item.addEventListener('click', () => {
+      document.getElementById('customPrompt').value = entry.text;
+    });
+    historyDiv.appendChild(item);
+  });
+}
+function toggleFavorite(id) {
+  const entry = recentHistory.find(e => e.id === id) || favoritePrompts.find(e => e.id === id);
+  if (!entry) return;
+  entry.isFavorite = !entry.isFavorite;
+  if (entry.isFavorite) {
+    if (!favoritePrompts.find(e => e.id === entry.id)) {
+      favoritePrompts.unshift(entry);
+    }
+  } else {
+    favoritePrompts = favoritePrompts.filter(e => e.id !== entry.id);
+  }
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favoritePrompts));
+  renderHistory();
+}
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.history-tab').forEach(t => {
+    t.classList.toggle('active', t.textContent.toLowerCase().includes(tab));
+  });
+  renderHistory();
+}
+async function copyPrompt(id) {
+  const entry = recentHistory.find(e => e.id === id) || favoritePrompts.find(e => e.id === id);
+  if (!entry) return;
+  try {
+    await navigator.clipboard.writeText(entry.text);
+    const copyBtn = document.querySelector(`[onclick="event.stopPropagation(); copyPrompt('${id}')"]`);
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => {
+      copyBtn.textContent = 'Copy';
+    }, 1000);
+  } catch (err) {
+    console.error('Failed to copy text:', err);
+  }
+}
+function selectPromptTemplate() {
+  const select = document.getElementById('promptTemplates');
+  const customPrompt = document.getElementById('customPrompt');
+  const selectedTemplate = PROMPT_TEMPLATES[select.value];
+  if (selectedTemplate) {
+    customPrompt.value = selectedTemplate;
+  }
+}
+function copyVariation(button) {
+  const text = button.previousElementSibling.textContent;
+  navigator.clipboard.writeText(text);
+  const originalText = button.textContent;
+  button.textContent = 'Copied!';
+  setTimeout(() => {
+    button.textContent = originalText;
+  }, 1000);
+}
+document.getElementById('dropZone').addEventListener('click', () => {
+  document.getElementById('fileInput').click();
+});
+document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+document.getElementById('dropZone').addEventListener('dragover', handleDragOver);
+document.getElementById('dropZone').addEventListener('drop', handleDrop);
+renderHistory();</script></body></html>
